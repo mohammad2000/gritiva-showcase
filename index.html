@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gritiva-showcase</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #151b31;
+    --line: #26304f;
+    --accent: #6c8cff;
+    --ok: #34d399;
+    --text: #e8ecf8;
+    --muted: #8b94b3;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: radial-gradient(1200px 600px at 80% -10%, #1b2547 0%, var(--bg) 55%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  main { width: min(720px, 100%); }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--muted); font-size: 13px; margin-bottom: 20px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+  h1 { font-size: 34px; letter-spacing: -0.5px; }
+  h1 span { color: var(--accent); }
+  p.lead { color: var(--muted); margin: 12px 0 28px; line-height: 1.6; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 18px;
+  }
+  .card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+  .card pre { font-size: 13px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+  .card .big { font-size: 26px; color: var(--accent); }
+  code { background: #0d1330; border: 1px solid var(--line); padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+  footer { margin-top: 26px; color: var(--muted); font-size: 12px; }
+  a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="badge"><span class="dot"></span> deployed · stdlib-only · no dependencies</div>
+  <h1>gritiva-<span>showcase</span></h1>
+  <p class="lead">
+    A tiny web app built from scratch and shipped end-to-end on Gritiva:
+    a pretty landing page served by a plain Python <code>http.server</code>,
+    plus a JSON API with two endpoints.
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h2>GET /api/health</h2>
+      <pre id="health">loading…</pre>
+    </div>
+    <div class="card">
+      <h2>GET /api/stats</h2>
+      <pre id="stats">loading…</pre>
+    </div>
+  </div>
+  <footer>
+    repo: <a href="https://github.com/mohammad2000/gritiva-showcase" target="_blank">mohammad2000/gritiva-showcase</a> ·
+    port <code>8080</code> · Python <span id="pyver">—</span>
+  </footer>
+</main>
+<script>
+  async function load(id, url) {
+    try {
+      const r = await fetch(url);
+      document.getElementById(id).textContent = JSON.stringify(await r.json(), null, 2);
+    } catch (e) {
+      document.getElementById(id).textContent = "error: " + e.message;
+    }
+  }
+  load("health", "/api/health");
+  load("stats", "/api/stats");
+</script>
+</body>
+</html>
