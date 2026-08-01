@@ -1,23 +1,19 @@
 # gritiva-showcase
 
-A tiny, real web app deployed end-to-end on Gritiva.
+A tiny end-to-end deployment showcase on Gritiva: a stdlib-only Python web app
+with a landing page and a JSON API. Zero third-party dependencies.
 
-## What it is
+## Endpoints
 
-- **Landing page** — pretty HTML served at `/`
-- **API** — two JSON endpoints using only the Python standard library:
-  - `GET /api/health` → service status + uptime
-  - `GET /api/stats` → runtime stats (python version, pid, request count)
+| Path          | Description                               |
+|---------------|-------------------------------------------|
+| `/`           | Landing page (static HTML)                |
+| `/api/health` | Liveness check -> `{"status": "ok", ...}` |
+| `/api/stats`  | Uptime / Python / host info               |
 
-## Run it locally
+## Run locally
 
 ```bash
-python3 server.py          # listens on 0.0.0.0:8080
-PORT=9090 python3 server.py  # custom port
+python3 server.py            # listens on 0.0.0.0:8080
+PORT=8090 python3 server.py  # custom port
 ```
-
-No dependencies. No `pip install`. Just Python 3.
-
-## Deployed on Gritiva
-
-Created from scratch: repo → scope on VM → automated pipeline deploy → port exposed to the internet.
